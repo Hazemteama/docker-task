@@ -1,0 +1,26 @@
+version: '3'
+services:
+  app:
+    build: app
+    volumes:
+      - app:/app
+    ports: 
+      - "8000:8000"
+    links:
+      - redis:redis 
+    depends_on:
+      - redis
+    environment:
+      - VIRTUAL_HOST=test.local
+
+  redis:
+    image: "redis:alpine"
+    expose:
+      - "6379"
+volumes:
+  app:
+  
+networks:
+  default:
+    external:
+      name: nginx-proxy          
